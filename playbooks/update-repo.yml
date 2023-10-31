@@ -1,0 +1,8 @@
+---
+- name: Check and Update Repository
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update repository cache
+      apt:
+        update_cache: yes
