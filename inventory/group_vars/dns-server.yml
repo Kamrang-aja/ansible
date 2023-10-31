@@ -1,0 +1,9 @@
+# === IP Address ============================
+[dns-server]
+10.10.10.1
+10.10.10.2
+
+# === Hostsname Address ============================
+[dns-server]
+ns1.example.com
+ns2.example.com

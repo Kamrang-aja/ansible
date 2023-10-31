@@ -1,0 +1,13 @@
+# Ansible hosts
+# See /etc/ansible/hosts.example or
+# the on-line documentation at http://docs.ansible.com/ansible/intro_inventory.html
+# for information on how to configure this file.
+#===================================================================================
+
+# === Ansible koneksi ke host ======================================================
+# <your-ansible-user> ALL=(ALL) NOPASSWD: /sbin/reboot << Example
+ansible               ansible_connection=shh
+
+# === IP/hostname servers ==========================================================
+[all]
+192.168.100.1
