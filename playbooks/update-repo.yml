@@ -1,8 +1,14 @@
 ---
-- name: Check and Update Repository
+- name: Host VM
   hosts: all
   become: yes
+
   tasks:
     - name: Update repository cache
       apt:
         update_cache: yes
+
+    - name: Upgrade all packages and auto remove
+      apt:
+        upgrade: dist
+        autoremove: yes
