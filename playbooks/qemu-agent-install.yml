@@ -1,0 +1,47 @@
+---
+- name: Check Updates, Install qemu-agent, Reboot, and Check Uptime
+  hosts: all
+  become: yes  # Untuk mendapatkan akses superuser (biasanya root)
+
+  tasks:
+    - name: Update repository cache (Ubuntu/Debian)
+      apt:
+        update_cache: yes
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+    - name: Update repository cache (CentOS)
+      yum:
+        name: "*"
+        state: latest
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+    - name: Install qemu-agent (Ubuntu/Debian)
+      apt:
+        name: qemu-agent
+        state: latest
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+    - name: Install qemu-agent (CentOS)
+      yum:
+        name: qemu-guest-agent
+        state: latest
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+    - name: Reboot the system
+      reboot:
+      async: 0
+      poll: 0
+      register: reboot_result
+
+    - name: Wait for 300 seconds
+      wait_for:
+        timeout: 300
+      when: reboot_result is changed
+
+    - name: Check system uptime
+      command: uptime
+      register: uptime_result
+
+    - name: Show system uptime
+      debug:
+        var: uptime_result.stdout_lines
