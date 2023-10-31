@@ -1,7 +1,6 @@
 ---
 - name: Reboot Machines
   hosts: all
-  become: yes  # Ini akan memungkinkan Anda untuk menjalankan perintah dengan hak akses root atau sudo
   tasks:
     - name: Reboot the machine
       command: reboot
