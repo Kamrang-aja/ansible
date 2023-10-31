@@ -4,4 +4,4 @@
   become: yes
   tasks:
     - name: Reboot the VM
-      command: /sbin/reboot
+      command: reboot
