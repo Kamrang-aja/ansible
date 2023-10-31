@@ -1,6 +1,6 @@
 ---
 - name: Reboot Ubuntu VM
-  hosts: your_target_hosts
+  hosts: all
   become: yes
   tasks:
     - name: Reboot the VM
