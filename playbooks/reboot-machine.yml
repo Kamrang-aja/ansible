@@ -1,6 +1,7 @@
 ---
-- name: Reboot Machines
+- name: Reboot Ubuntu VM
   hosts: all
+  become: yes  # Ini akan memungkinkan Anda menjalankan perintah dengan hak akses root atau sudo
   tasks:
-    - name: Reboot the machine
-      command: reboot
+    - name: Reboot the VM
+      reboot:
