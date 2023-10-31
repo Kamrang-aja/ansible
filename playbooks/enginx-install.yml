@@ -1,8 +1,13 @@
 ---
-- name: Install Nginx
+- name: Host VM
   hosts: all
   become: yes
+  
   tasks:
+    - name: Update repository cache
+      apt:
+        update_cache: yes
+
     - name: Install Nginx
       apt:
         name: nginx
