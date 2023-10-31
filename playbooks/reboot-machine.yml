@@ -1,7 +1,7 @@
 ---
-- name: Host the VM
+- name: Reboot VM
   hosts: all
-  become: true
+  become: yes # Untuk mendapatkan akses superuser (biasanya root)
 
   tasks:
     - name: Reboot the VM

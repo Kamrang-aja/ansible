@@ -1,14 +1,28 @@
 ---
 - name: Host VM
-  hosts: all
+  hosts: your_target_host
   become: yes
-
+  
   tasks:
-    - name: Update repository cache
+    - name: Update repository cache (Ubuntu/Debian)
       apt:
         update_cache: yes
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
 
-    - name: Upgrade all packages and auto remove
+    - name: Update repository cache (CentOS)
+      yum:
+        name: "*"
+        state: latest
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+    - name: Upgrade all packages (Ubuntu/Debian)
       apt:
         upgrade: dist
         autoremove: yes
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+    - name: Upgrade all packages (CentOS)
+      yum:
+        name: "*"
+        state: latest
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'

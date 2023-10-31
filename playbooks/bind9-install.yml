@@ -1,5 +1,5 @@
 ---
-- name: Update and Install Latest PHP
+- name: Check Updates and Install Bind9
   hosts: all
   become: yes  # Untuk mendapatkan akses superuser (biasanya root)
 
@@ -15,14 +15,14 @@
         state: latest
       when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
 
-    - name: Install the latest PHP version (Ubuntu/Debian)
+    - name: Install Bind9 (Ubuntu/Debian)
       apt:
-        name: php
+        name: bind9
         state: latest
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
 
-    - name: Install the latest PHP version (CentOS)
+    - name: Install Bind9 (CentOS)
       yum:
-        name: php
+        name: bind
         state: latest
       when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'

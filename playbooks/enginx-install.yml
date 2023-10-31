@@ -1,14 +1,28 @@
 ---
-- name: Host VM
+- name: Check Updates and Install Nginx
   hosts: all
-  become: yes
+  become: yes  # Untuk mendapatkan akses superuser (biasanya root)
   
   tasks:
-    - name: Update repository cache
+    - name: Update repository cache (Debian/Ubuntu)
       apt:
         update_cache: yes
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
 
-    - name: Install Nginx
+    - name: Update repository cache (CentOS)
+      yum:
+        name: "*"
+        state: latest
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+    - name: Install Nginx (Debian/Ubuntu)
       apt:
         name: nginx
         state: present
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+    - name: Install Nginx (CentOS)
+      yum:
+        name: nginx
+        state: present
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
