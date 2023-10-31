@@ -2,6 +2,7 @@
 - name: Reboot Ubuntu VM
   hosts: all
   become: yes
+  become_user: root
   tasks:
     - name: Reboot the VM
       command: reboot
