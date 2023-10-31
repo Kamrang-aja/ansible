@@ -1,7 +1,10 @@
 ---
-- name: Reboot Ubuntu VM
+- name: Host the VM
   hosts: all
-  become: yes
+  become: true
+
   tasks:
     - name: Reboot the VM
-      command: reboot
+      reboot:
+        reboot_timeout: 300
+        test_command: uptime
