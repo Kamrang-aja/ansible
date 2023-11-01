@@ -1,5 +1,5 @@
 ---
-- name: Install Portainer Latest via Docker
+- name: Install Portainer via Docker
   hosts: all  # Ganti dengan nama atau grup host target Anda
   become: yes  # Untuk mendapatkan akses superuser (biasanya root)
 
@@ -22,17 +22,9 @@
         state: started
 
     - name: Pull Portainer Docker image
-      community.general.docker_image:
-        name: portainer/portainer-ce:latest
+      command: docker pull portainer/portainer-ce
       when: (ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian' or ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat') and ("docker" in ansible_facts.packages)
 
     - name: Create Portainer Container
-      community.general.docker_container:
-        name: portainer
-        image: portainer/portainer-ce:latest
-        state: started
-        ports:
-          - "9000:9000"
-        volumes:
-          - /var/run/docker.sock:/var/run/docker.sock
+      command: docker run -d -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer-ce
       when: (ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian' or ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat') and ("docker" in ansible_facts.packages)
