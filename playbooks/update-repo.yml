@@ -1,8 +1,8 @@
 ---
-- name: Host VM
+- name: Check Updates, Upgrade, and Autoremove
   hosts: your_target_host
-  become: yes
-  
+  become: yes  # Untuk mendapatkan akses superuser (biasanya root)
+
   tasks:
     - name: Update repository cache (Ubuntu/Debian)
       apt:
