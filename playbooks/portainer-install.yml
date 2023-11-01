@@ -30,5 +30,5 @@
                 --restart=always \
                 -v /var/run/docker.sock:/var/run/docker.sock \
                 -v portainer_data:/data \
-                portainer/portainer-ce:2.9.3
+                portainer/portainer-ce:latest
       when: (ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian' or ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat') and ("docker" in ansible_facts.packages)
