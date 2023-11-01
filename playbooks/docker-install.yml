@@ -1,0 +1,33 @@
+---
+- name: Update and Install Docker
+  hosts: all
+  become: yes  # Untuk mendapatkan akses superuser (biasanya root)
+
+  tasks:
+    - name: Update repository cache (Ubuntu/Debian)
+      apt:
+        update_cache: yes
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+    - name: Update repository cache (CentOS)
+      yum:
+        name: "*"
+        state: latest
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+    - name: Install Docker (Ubuntu/Debian)
+      apt:
+        name: docker.io
+        state: present
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+    - name: Install Docker (CentOS)
+      yum:
+        name: docker
+        state: present
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
