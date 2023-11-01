@@ -1,20 +1,9 @@
 ---
-- name: Update and Install Portainer (Free Version)
-  hosts: all
+- name: Install Portainer Latest via Docker
+  hosts: all  # Ganti dengan nama atau grup host target Anda
   become: yes  # Untuk mendapatkan akses superuser (biasanya root)
 
   tasks:
-    - name: Update repository cache (Ubuntu/Debian)
-      apt:
-        update_cache: yes
-      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
-
-    - name: Update repository cache (CentOS)
-      yum:
-        name: "*"
-        state: latest
-      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
-
     - name: Install Docker (Ubuntu/Debian)
       apt:
         name: docker.io
@@ -32,6 +21,18 @@
         name: docker
         state: started
 
-    - name: Install Portainer (Free Version)
-      command: docker run -d -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer-ce
+    - name: Pull Portainer Docker image
+      community.general.docker_image:
+        name: portainer/portainer-ce:latest
+      when: (ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian' or ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat') and ("docker" in ansible_facts.packages)
+
+    - name: Create Portainer Container
+      community.general.docker_container:
+        name: portainer
+        image: portainer/portainer-ce:latest
+        state: started
+        ports:
+          - "9000:9000"
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
       when: (ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian' or ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat') and ("docker" in ansible_facts.packages)
