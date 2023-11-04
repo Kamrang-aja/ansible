@@ -1,6 +1,6 @@
 ---
-- name: Update, Install qemu-agent, Start and Enable Services, Reboot, Wait, and Check Uptime
-  hosts: all # Ganti dengan nama atau grup host target Anda
+- name: Update, Install qemu-agent, Start and Enable Services, and Reboot Server
+  hosts: all  # Ganti dengan nama atau grup host target Anda
   become: yes  # Untuk mendapatkan akses superuser (biasanya root)
 
   tasks:
@@ -39,23 +39,8 @@
         state: started
       when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
 
-    - name: Reboot the machine
+    - name: Reboot the server
       command: reboot
       async: 0
       poll: 0
-      when: ansible_distribution == 'Debian' or ansible_distribution == 'CentOS'
-
-    - name: Wait for 300 seconds
-      pause:
-        seconds: 300
-      when: ansible_distribution == 'Debian' or ansible_distribution == 'CentOS'
-
-    - name: Check Uptime
-      command: uptime
-      register: uptime_output
-      when: ansible_distribution == 'Debian' or ansible_distribution == 'CentOS'
-
-    - name: Display Uptime
-      debug:
-        var: uptime_output.stdout_lines
       when: ansible_distribution == 'Debian' or ansible_distribution == 'CentOS'
