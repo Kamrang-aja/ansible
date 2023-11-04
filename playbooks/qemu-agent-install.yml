@@ -1,22 +1,40 @@
-- hosts: all
-  become: true
+---
+- name: Update and Install qemu-agent and Enable Services
+  hosts: your_target_host  # Ganti dengan nama atau grup host target Anda
+  become: yes  # Untuk mendapatkan akses superuser (biasanya root)
+
   tasks:
-    - name: Update apt cache
+    - name: Update repository cache on Debian
       apt:
         update_cache: yes
+      when: ansible_distribution == 'Debian'
 
-    - name: Install qemu-guest-agent package
+    - name: Update repository cache on CentOS
+      yum:
+        name: "*"
+        state: latest
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+    - name: Install qemu-guest-agent on Debian
       apt:
         name: qemu-guest-agent
         state: present
+      when: ansible_distribution == 'Debian'
 
-    - name: Reboot machine
-      reboot:
+    - name: Install qemu-guest-agent on CentOS
+      yum:
+        name: qemu-guest-agent
+        state: present
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
 
-    - name: Wait for machine to come back online
-      wait_for:
-        host: "{{ inventory_hostname }}"
-        port: 22
+    - name: Start qemu-guest-agent service on Debian
+      service:
+        name: qemu-guest-agent
         state: started
-        delay: 10
-        timeout: 300
+      when: ansible_distribution == 'Debian'
+
+    - name: Start qemu-guest-agent service on CentOS
+      service:
+        name: qemu-ga
+        state: started
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
