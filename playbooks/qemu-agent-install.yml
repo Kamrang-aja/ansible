@@ -39,8 +39,8 @@
         state: started
       when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
 
-    - name: Reboot the server
-      command: reboot
-      async: 0
-      poll: 0
+    - name: Reboot the VM
+      reboot:
+        reboot_timeout: 300
+        test_command: uptime
       when: ansible_distribution == 'Debian' or ansible_distribution == 'CentOS'
