@@ -1,6 +1,6 @@
 ---
 - name: Update and Install qemu-agent and Enable Services
-  hosts: your_target_host  # Ganti dengan nama atau grup host target Anda
+  hosts: all  # Ganti dengan nama atau grup host target Anda
   become: yes  # Untuk mendapatkan akses superuser (biasanya root)
 
   tasks:
