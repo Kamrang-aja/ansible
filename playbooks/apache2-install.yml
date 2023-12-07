@@ -1,6 +1,6 @@
 ---
-- name: Install Apache2 and phpMyAdmin
-  hosts: all  # Ganti dengan nama atau grup host target Anda
+- name: Install Apache2 and PHP Packages on Ubuntu
+  hosts: your_target_host  # Ganti dengan nama atau grup host target Anda
   become: yes  # Untuk mendapatkan akses superuser (biasanya root)
 
   tasks:
@@ -17,7 +17,7 @@
         name: apache2
         state: present
 
-    - name: Install phpMyAdmin dependencies
+    - name: Install PHP packages
       apt:
         name:
           - php-mbstring
@@ -27,11 +27,3 @@
           - php-curl
           - libapache2-mod-php8.1
         state: present
-
-    - name: Install phpMyAdmin
-      apt:
-        name: phpmyadmin
-        state: present
-
-    - name: Enable mbstring module
-      command: phpenmod mbstring
