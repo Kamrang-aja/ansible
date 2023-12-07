@@ -1,28 +1,18 @@
 ---
-- name: Update and Install Latest PHP
-  hosts: all
+- name: Install PHP and Modules on Ubuntu
+  hosts: your_target_host  # Ganti dengan nama atau grup host target Anda
   become: yes  # Untuk mendapatkan akses superuser (biasanya root)
 
   tasks:
-    - name: Update repository cache (Ubuntu/Debian)
+    - name: Install PHP and modules
       apt:
-        update_cache: yes
-      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
-
-    - name: Update repository cache (CentOS)
-      yum:
-        name: "*"
-        state: latest
-      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
-
-    - name: Install the latest PHP version (Ubuntu/Debian)
-      apt:
-        name: php
-        state: latest
-      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
-
-    - name: Install the latest PHP version (CentOS)
-      yum:
-        name: php
-        state: latest
-      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+        name:
+          - php
+          - libapache2-mod-php
+          - php-mysql
+          - php-mbstring
+          - php-zip
+          - php-gd
+          - php-json
+          - php-curl
+        state: present
