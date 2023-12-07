@@ -1,6 +1,6 @@
 ---
-- name: Install and Start MySQL Server on Ubuntu
-  hosts: all  # Ganti dengan nama atau grup host target Anda
+- name: Install and Secure MySQL on Ubuntu
+  hosts: your_target_host  # Ganti dengan nama atau grup host target Anda
   become: yes  # Untuk mendapatkan akses superuser (biasanya root)
 
   tasks:
@@ -17,3 +17,14 @@
       systemd:
         name: mysql
         state: started
+
+    - name: Run mysql_secure_installation
+      expect:
+        command: mysql_secure_installation
+        responses:
+          'Press y|Y for Yes, any other key for No: ': 'Y\n'
+          'Please enter 0 = LOW, 1 = MEDIUM and 2 = STRONG: ': '2\n'
+          'Remove anonymous users? (Press y|Y for Yes, any other key for No) ': 'Y\n'
+          'Disallow root login remotely? (Press y|Y for Yes, any other key for No) ': 'Y\n'
+          'Remove test database and access to it? (Press y|Y for Yes, any other key for No) ': 'Y\n'
+          'Reload privilege tables now? (Press y|Y for Yes, any other key for No) ': 'Y\n'
