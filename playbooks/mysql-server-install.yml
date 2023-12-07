@@ -1,0 +1,19 @@
+---
+- name: Install and Start MySQL Server on Ubuntu
+  hosts: your_target_host  # Ganti dengan nama atau grup host target Anda
+  become: yes  # Untuk mendapatkan akses superuser (biasanya root)
+
+  tasks:
+    - name: Update repository cache
+      apt:
+        update_cache: yes
+
+    - name: Install MySQL Server
+      apt:
+        name: mysql-server
+        state: present
+
+    - name: Start MySQL service
+      systemd:
+        name: mysql
+        state: started
