@@ -1,6 +1,6 @@
 ---
 - name: Install and Secure MySQL on Ubuntu
-  hosts: your_target_host  # Ganti dengan nama atau grup host target Anda
+  hosts: all  # Ganti dengan nama atau grup host target Anda
   become: yes  # Untuk mendapatkan akses superuser (biasanya root)
 
   tasks:
