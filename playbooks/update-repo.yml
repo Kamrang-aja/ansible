@@ -1,28 +1,13 @@
 ---
-- name: Check Updates, Upgrade, and Autoremove
-  hosts: your_target_host
+- name: Update and Upgrade Ubuntu
+  hosts: all  # Ganti dengan nama atau grup host target Anda
   become: yes  # Untuk mendapatkan akses superuser (biasanya root)
 
   tasks:
-    - name: Update repository cache (Ubuntu/Debian)
+    - name: Update repository cache
       apt:
         update_cache: yes
-      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
 
-    - name: Update repository cache (CentOS)
-      yum:
-        name: "*"
-        state: latest
-      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
-
-    - name: Upgrade all packages (Ubuntu/Debian)
+    - name: Upgrade all packages
       apt:
-        upgrade: dist
-        autoremove: yes
-      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
-
-    - name: Upgrade all packages (CentOS)
-      yum:
-        name: "*"
-        state: latest
-      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+        upgrade: yes
